@@ -1,58 +1,41 @@
-# Two-VLAN Packet Tracer Lab
+# Introductory Two-VLAN Packet Tracer Lab
 
-## Current build status
+This is a small personal practice lab built in Cisco Packet Tracer 9.0.1 while learning networking fundamentals. It covers basic VLAN setup, DHCP, router-on-a-stick routing, and switch port security. It is a simulated learning exercise, not a production network.
 
-The Packet Tracer workspace contains a Cisco 2911 router, a 2960-24TT switch, and four PCs. Each PC is connected to the switch. The switch was configured and its running configuration was copied to NVRAM with `write memory`:
+## Topology
 
-- VLAN 10 (`SALES`): Fa0/1 and Fa0/2
-- VLAN 20 (`STAFF`): Fa0/3 and Fa0/4
-- Access ports have sticky MAC learning and port-security violation mode `restrict`.
-- Switch hostname: `SW1`; the enable secret is redacted in the published configuration examples.
+- Cisco 2911 router (Packet Tracer label: Router0) connects from G0/0 to Switch0 Fa0/5 as an 802.1Q trunk. The configured switch hostname is SW1.
+- Cisco 2960-24TT switch with four PC access ports.
+- VLAN 10 (SALES): Fa0/1–Fa0/2, network 192.168.10.0/24, gateway 192.168.10.1.
+- VLAN 20 (STAFF): Fa0/3–Fa0/4, network 192.168.20.0/24, gateway 192.168.20.1.
+- Router subinterfaces G0/0.10 and G0/0.20 provide the VLAN gateways and routing between the VLANs.
 
-The native `.pkt` file is saved in this folder. The four PCs are connected to the switch, and the router is cabled to Switch0 `Fa0/5`. Router subinterfaces for VLANs 10 and 20, DHCP pools, and the switch trunk on `Fa0/5` have been configured and saved. The router CLI confirms both subinterfaces are up/up. The switch CLI confirms VLAN 10 and VLAN 20 are active and Fa0/5 is an 802.1Q trunk; spanning tree reports Fa0/5 forwarding in both VLANs. Sticky MAC port security is configured on the four PC access ports.
+![Two-VLAN topology](topology.svg)
 
-**Verification passed in Packet Tracer:**
+## What I configured
 
-- PC0 received `192.168.10.21/24` from DHCP with gateway `192.168.10.1` and DNS `8.8.8.8`.
-- PC2 received `192.168.20.21/24` from DHCP with gateway `192.168.20.1` and DNS `8.8.8.8`.
-- Router `show ip dhcp binding` showed PC2's lease as an automatic binding.
-- PC0 pinged its VLAN 10 gateway successfully (4/4 replies).
-- PC0 pinged PC2 across VLANs successfully (4/4 replies, 0% loss).
-- Router subinterfaces were up/up; switch spanning tree showed the trunk forwarding in VLANs 10 and 20.
+- Two VLANs and access-port assignments on the switch.
+- An 802.1Q trunk between the switch and router.
+- Router subinterfaces and DHCP pools for both VLANs.
+- Sticky MAC learning, a one-MAC limit, and restrict violation mode on the four PC-facing ports. PortFast is enabled on those ports.
 
-See [`verification-results.md`](verification-results.md) for the commands and recorded results. [`topology.svg`](topology.svg) shows the lab layout.
+The example configuration files omit enable-password commands. Port security is configured, but I have not recorded a test that triggers a security violation.
 
-PC0 and PC2 are set to DHCP in the saved Packet Tracer file. PC1 and PC3 remain available for additional DHCP-client checks.
+## What I verified
 
-## Addressing plan
+In the saved simulation, PC0 and PC2 are set to DHCP. PC0 received 192.168.10.21/24 with gateway 192.168.10.1; PC2 received 192.168.20.21/24 with gateway 192.168.20.1. The router listed PC2's DHCP lease as automatic.
 
-| VLAN | Name | Network | Default gateway | DHCP range |
-|---|---|---|---|---|
-| 10 | SALES | 192.168.10.0/24 | 192.168.10.1 | 192.168.10.21–192.168.10.254 |
-| 20 | STAFF | 192.168.20.0/24 | 192.168.20.1 | 192.168.20.21–192.168.20.254 |
+PC0 successfully pinged its gateway and PC2 across VLANs (4/4 replies for each). Router subinterfaces were up/up, and spanning tree showed the uplink forwarding in both VLANs. PC1 and PC3 were not included in the client tests.
 
-## Rechecking the lab
+See [verification-results.md](verification-results.md) for the commands and results.
 
-Open the saved `.pkt` file. To repeat the checks, use these commands and steps:
+## Files
 
-1. On the router, verify:
+- `Packet Tracer VLAN Lab.pkt` — editable simulation.
+- `topology.svg` — topology diagram.
+- `router-config.txt` and `switch-config.txt` — example configuration commands.
+- `verification-results.md` — recorded DHCP and connectivity checks.
 
-   ```text
-   show ip interface brief
-   show ip dhcp pool
-   show ip dhcp binding
-   ```
+## Repeat the checks
 
-2. On the switch, use `show vlan brief`, `show interfaces trunk`, and `show port-security interface fa0/1` (repeat for Fa0/2–Fa0/4 as needed).
-3. On a client, choose Desktop → IP Configuration → DHCP. Confirm the address is in the matching subnet.
-4. From Command Prompt, ping the client's default gateway and a client in the other VLAN. A successful cross-VLAN ping confirms routing.
-5. To demonstrate that DHCP issued a lease, confirm the client appears in the router's `show ip dhcp binding` output.
-
-## Security note
-
-The enable secret is redacted from the published configuration examples. Port security limits each PC access port to one learned MAC address and restricts traffic from an unexpected MAC.
-
-**Packet Tracer Network Lab** | Nov, 2026
-
-- Designed and configured a simulated network with two VLANs, DHCP, inter-VLAN routing, and switch port security.
-- Documented the topology, IP addressing scheme, and configuration steps.
+Open the .pkt file in Packet Tracer. On the router, run `show ip interface brief`, `show ip dhcp pool`, and `show ip dhcp binding`. On the switch, run `show vlan brief`, `show interfaces trunk`, and `show port-security interface fa0/1` (repeat for Fa0/2–Fa0/4). On PC0 and PC2, choose Desktop → IP Configuration → DHCP, then ping the gateway and a client in the other VLAN.

@@ -1,8 +1,6 @@
 enable
 configure terminal
 hostname R1
-enable secret <REDACTED>
-service password-encryption
 banner motd #Authorized lab use only#
 interface gigabitEthernet0/0
 no shutdown
