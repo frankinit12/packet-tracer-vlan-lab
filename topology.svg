@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+  <title id="title">Two-VLAN Packet Tracer lab topology</title>
+  <desc id="desc">A router connects by an 802.1Q trunk to one switch. Two PCs are in VLAN 10 SALES and two are in VLAN 20 STAFF.</desc>
+  <defs>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; fill: #18212f; }
+      .muted { fill: #536273; }
+      .node { fill: #fff; stroke: #243b53; stroke-width: 3; }
+      .link { fill: none; stroke: #34495e; stroke-width: 5; }
+      .v10 { stroke: #168a70; }
+      .v20 { stroke: #5a67b5; }
+    </style>
+  </defs>
+  <rect width="1100" height="620" rx="28" fill="#f3f7fa"/>
+  <text x="55" y="62" font-size="32" font-weight="700">Two VLANs, one routed trunk</text>
+  <text x="56" y="96" font-size="17" class="muted">Packet Tracer practice topology • 2911 router + 2960-24TT switch</text>
+
+  <path class="link" d="M550 200 L550 288"/>
+  <path class="link v10" d="M495 362 L270 470 M495 362 L430 470"/>
+  <path class="link v20" d="M605 362 L670 470 M605 362 L830 470"/>
+
+  <rect x="420" y="125" width="260" height="78" rx="18" class="node"/>
+  <text x="550" y="158" text-anchor="middle" font-size="22" font-weight="700">R1 • Cisco 2911</text>
+  <text x="550" y="185" text-anchor="middle" font-size="16" class="muted">G0/0.10 • .10.1  |  G0/0.20 • .20.1</text>
+  <rect x="407" y="288" width="286" height="74" rx="18" class="node"/>
+  <text x="550" y="319" text-anchor="middle" font-size="22" font-weight="700">SW1 • Cisco 2960-24TT</text>
+  <text x="550" y="346" text-anchor="middle" font-size="16" class="muted">Fa0/5 trunk • VLANs 10, 20</text>
+  <rect x="453" y="225" width="194" height="38" rx="19" fill="#e4ebf1"/>
+  <text x="550" y="250" text-anchor="middle" font-size="16" font-weight="700">802.1Q trunk</text>
+
+  <rect x="88" y="438" width="330" height="132" rx="18" fill="#e5f5ef" stroke="#168a70" stroke-width="2"/>
+  <text x="253" y="466" text-anchor="middle" font-size="19" font-weight="700" fill="#126953">VLAN 10 • SALES</text>
+  <text x="253" y="490" text-anchor="middle" font-size="15" class="muted">192.168.10.0/24 • Gateway .10.1 • DHCP</text>
+  <rect x="120" y="508" width="122" height="44" rx="10" class="node"/>
+  <text x="181" y="536" text-anchor="middle" font-size="16" font-weight="700">PC0 • DHCP</text>
+  <rect x="264" y="508" width="122" height="44" rx="10" class="node"/>
+  <text x="325" y="536" text-anchor="middle" font-size="16" font-weight="700">PC1 • DHCP</text>
+
+  <rect x="682" y="438" width="330" height="132" rx="18" fill="#ebeefe" stroke="#5a67b5" stroke-width="2"/>
+  <text x="847" y="466" text-anchor="middle" font-size="19" font-weight="700" fill="#454f98">VLAN 20 • STAFF</text>
+  <text x="847" y="490" text-anchor="middle" font-size="15" class="muted">192.168.20.0/24 • Gateway .20.1 • DHCP</text>
+  <rect x="714" y="508" width="122" height="44" rx="10" class="node"/>
+  <text x="775" y="536" text-anchor="middle" font-size="16" font-weight="700">PC2 • DHCP</text>
+  <rect x="858" y="508" width="122" height="44" rx="10" class="node"/>
+  <text x="919" y="536" text-anchor="middle" font-size="16" font-weight="700">PC3 • DHCP</text>
+
+  <text x="550" y="600" text-anchor="middle" font-size="14" class="muted">Access ports Fa0/1–2 (VLAN 10) • Fa0/3–4 (VLAN 20) • Sticky MAC port security</text>
+</svg>
