@@ -52,9 +52,7 @@ Open the saved `.pkt` file. To repeat the checks, use these commands and steps:
 
 The enable secret is redacted from the published configuration examples. Port security limits each PC access port to one learned MAC address and restricts traffic from an unexpected MAC.
 
-## Resume entry (after completing and verifying)
-
-**Packet Tracer Network Lab** | [Month Year]
+**Packet Tracer Network Lab** | Nov, 2026
 
 - Designed and configured a simulated network with two VLANs, DHCP, inter-VLAN routing, and switch port security.
 - Documented the topology, IP addressing scheme, and configuration steps.
